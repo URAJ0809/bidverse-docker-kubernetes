@@ -71,7 +71,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: uraj0809/k8-backend  # <-- change this
+          image: uraj0809/bidverse-backend  # <-- change this
           imagePullPolicy: Always
           env:
             - name: SPRING_DATASOURCE_URL
@@ -118,7 +118,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: uraj0809/k8-frontend # <-- change this
+          image: uraj0809/bidverse-frontend # <-- change this
           imagePullPolicy: Always
           ports:
             - containerPort: 80
