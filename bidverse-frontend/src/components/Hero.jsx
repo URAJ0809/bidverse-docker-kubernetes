@@ -4,6 +4,7 @@ import { Box, Typography, Button, Container } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
+import biddingImage from '../assets/bidding_1920.jpg';
 
 // Styled components
 const HeroContainer = styled(Box)(({ theme }) => ({
@@ -96,7 +97,7 @@ function Hero() {
     <HeroContainer>
       <Container maxWidth="lg">
         <HeroImage
-          src="/src/assets/bidding_1920.jpg"
+          src={biddingImage}
           alt="BidVerse Hero"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

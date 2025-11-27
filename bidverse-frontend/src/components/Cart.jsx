@@ -16,19 +16,21 @@ import {
   Button
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
+import placeholder from '../assets/react.svg';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [message, setMessage] = useState(null);
   const { user } = useAuth();
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
   // Fetch cart items from DB
   useEffect(() => {
     if (!user) return; // must be logged in
     const fetchCartItems = async () => {
       try {
-        await axios.delete('http://localhost:8080/api/cart/remove-ended-auctions'); // Remove ended auctions
-        const response = await axios.get(`http://localhost:8080/api/cart?userId=${user.id}`);
+        await axios.delete(`${API_BASE}/api/cart/remove-ended-auctions`); // Remove ended auctions
+        const response = await axios.get(`${API_BASE}/api/cart?userId=${user.id}`);
         setCartItems(response.data);
       } catch (err) {
         console.error('Error fetching cart items:', err);
@@ -41,7 +43,7 @@ function Cart() {
   // Remove item from DB + local state
   const handleRemove = async (cartItemId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/cart/${cartItemId}`);
+      await axios.delete(`${API_BASE}/api/cart/${cartItemId}`);
       setCartItems((prev) => prev.filter((item) => item.id !== cartItemId));
       setMessage('Item removed from cart');
       setTimeout(() => setMessage(null), 2000);
@@ -86,7 +88,7 @@ function Cart() {
                     <Avatar
                       variant="rounded"
                       sx={{ width: 56, height: 56, borderRadius: '8px' }}
-                      src={item.imageUrl ? `http://localhost:8080${item.imageUrl}` : '/placeholder.jpg'} // Prepend base URL
+                      src={item.imageUrl ? `${API_BASE}${item.imageUrl}` : placeholder} // Prepend base URL
                       alt={item.name}
                     />
                   </TableCell>

@@ -3,6 +3,7 @@ import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext'; // Import the AuthContext
+import { API_BASE } from '../config';
 
 function BillPayment() {
   const { user } = useAuth(); // Get the logged-in user
@@ -20,7 +21,7 @@ function BillPayment() {
           setItems(location.state.items);
           calculateTotal(location.state.items);
         } else {
-          const response = await axios.get(`http://localhost:8080/api/users/${userId}/won-items`);
+          const response = await axios.get(`${API_BASE}/api/users/${userId}/won-items`);
           setItems(response.data);
           calculateTotal(response.data);
         }
@@ -43,7 +44,7 @@ function BillPayment() {
       alert('Payment successful!');
 
       // Clear won items from the backend after payment
-      await axios.delete(`http://localhost:8080/api/users/${userId}/won-items`);
+      await axios.delete(`${API_BASE}/api/users/${userId}/won-items`);
 
       // Redirect to home or another page after payment
       navigate('/');
@@ -78,7 +79,7 @@ function BillPayment() {
                 <TableRow key={item.id}>
                   <TableCell>
                     <img
-                      src={`http://localhost:8080${item.productImage}`} // Prepend the base URL
+                      src={`${API_BASE}${item.productImage}`} // Prepend the base URL
                       alt={item.productName}
                       style={{ width: '50px', height: '50px', borderRadius: '8px' }}
                     />

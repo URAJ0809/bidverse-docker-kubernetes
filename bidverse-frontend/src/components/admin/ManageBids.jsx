@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'; // Added useCallback
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE } from '../../config';
 import { Box, Typography, Card, CardContent, Button, Grid, Accordion, AccordionSummary, AccordionDetails, List, ListItem, ListItemText, TextField, Stack } from '@mui/material'; // Added TextField, Stack
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CountdownTimer from '../CountdownTimer';
@@ -18,7 +19,7 @@ function ManageBids() {
   const fetchAdminProductsCallback = useCallback(async () => {
     if (user && user.id && isAdmin()) {
       try {
-        const res = await axios.get(`http://localhost:8080/api/admin/products?userId=${user.id}`);
+        const res = await axios.get(`${API_BASE}/api/admin/products?userId=${user.id}`);
         setAdminProducts(res.data);
       } catch (err) {
         console.error('Error fetching admin products:', err);
@@ -36,7 +37,7 @@ function ManageBids() {
       return;
     }
     try {
-      const res = await axios.get(`http://localhost:8080/api/admin/products/${productId}/bids?userId=${user.id}`);
+      const res = await axios.get(`${API_BASE}/api/admin/products/${productId}/bids?userId=${user.id}`);
       setProductBids(prev => ({ ...prev, [productId]: res.data }));
       
       // If the product is sold, fetch the winning user's information
@@ -44,7 +45,7 @@ function ManageBids() {
       if (product?.status === 'SOLD' && res.data.length > 0) {
         const winningBid = res.data[0]; // Assuming bids are sorted by amount desc
         try {
-          const userRes = await axios.get(`http://localhost:8080/api/users/${winningBid.userId}`);
+          const userRes = await axios.get(`${API_BASE}/api/users/${winningBid.userId}`);
           setWinningUsers(prev => ({ ...prev, [productId]: userRes.data }));
         } catch (err) {
           console.error('Error fetching winning user:', err);
@@ -66,10 +67,10 @@ function ManageBids() {
 
     switch (action) {
       case 'pause':
-        url = `http://localhost:8080/api/admin/products/${productId}/pause`;
+        url = `${API_BASE}/api/admin/products/${productId}/pause`;
         break;
       case 'resume':
-        url = `http://localhost:8080/api/admin/products/${productId}/resume`;
+        url = `${API_BASE}/api/admin/products/${productId}/resume`;
         if (newEndTimeValue) {
           const resumeDate = new Date(newEndTimeValue);
           if (resumeDate <= new Date()) {
@@ -93,7 +94,7 @@ function ManageBids() {
         }
         break;
       case 'relist':
-        url = `http://localhost:8080/api/admin/products/${productId}/relist`;
+        url = `${API_BASE}/api/admin/products/${productId}/relist`;
         if (newEndTimeValue) {
           const relistDate = new Date(newEndTimeValue);
           if (relistDate <= new Date()) {
@@ -109,7 +110,7 @@ function ManageBids() {
         }
         break;
       case 'end-auction-now': // This uses the CatalogController endpoint
-        url = `http://localhost:8080/api/catalog/${productId}/end-auction`;
+        url = `${API_BASE}/api/catalog/${productId}/end-auction`;
         method = 'post'; // No userId needed for this public endpoint
         queryParams = ''; // Clear queryParams for this specific call
         break;

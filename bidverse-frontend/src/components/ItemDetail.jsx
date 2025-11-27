@@ -9,9 +9,10 @@ import {
   TextField,
   Button
 } from '@mui/material';
+import placeholder from '../assets/react.svg';
 import { useAuth } from '../context/AuthContext'; // <-- import your AuthContext
 
-const PLACEHOLDER_IMAGE = '/placeholder.jpg';
+ 
 
 function ItemDetail() {
   const { id } = useParams();
@@ -41,7 +42,8 @@ function ItemDetail() {
 
   // Fetch product and bids
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/catalog/${id}`)
+    const base = import.meta.env.VITE_API_BASE_URL || '';
+    axios.get(`${base}/api/catalog/${id}`)
       .then((res) => {
         setProduct(res.data);
         if (res.data.endTime) {
@@ -54,7 +56,7 @@ function ItemDetail() {
       })
       .catch((err) => console.error('Fetch product error:', err));
 
-    axios.get(`http://localhost:8080/api/catalog/${id}/bids`)
+    axios.get(`${base}/api/catalog/${id}/bids`)
       .then((res) => setBids(res.data))
       .catch((err) => console.error('Fetch bids error:', err));
   }, [id]);
@@ -104,14 +106,15 @@ function ItemDetail() {
     }
 
     try {
+      const base = import.meta.env.VITE_API_BASE_URL || '';
       // POST the bid with userId from AuthContext
-      await axios.post(`http://localhost:8080/api/catalog/${id}/bids`, {
+      await axios.post(`${base}/api/catalog/${id}/bids`, {
         userId: user.id, // adjust if your backend expects 'username' or something else
         amount: bidValue,
       });
 
       // Re-fetch bids to update the list
-      const res = await axios.get(`http://localhost:8080/api/catalog/${id}/bids`);
+      const res = await axios.get(`${base}/api/catalog/${id}/bids`);
       setBids(res.data);
       setNewBid('');
     } catch (err) {
@@ -129,8 +132,8 @@ function ItemDetail() {
   }
 
   const imageSrc = product.imageUrl
-    ? `http://localhost:8080${product.imageUrl}`
-    : PLACEHOLDER_IMAGE;
+    ? `${import.meta.env.VITE_API_BASE_URL || ''}${product.imageUrl}`
+    : placeholder;
 
   // Format time left for display
   const formatTimeLeft = () => {

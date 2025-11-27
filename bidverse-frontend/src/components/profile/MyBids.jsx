@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE } from '../../config';
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 function MyBids() {
@@ -14,10 +15,10 @@ function MyBids() {
 
     const fetchBids = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/users/${user.id}/my-bids`);
+        const response = await axios.get(`${API_BASE}/api/users/${user.id}/my-bids`);
         if (Array.isArray(response.data)) {
           setBids(response.data);
-        } else {
+        } else {0
           setBids([]); // Handle case where backend returns a message instead of an array
         }
       } catch (err) {

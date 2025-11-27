@@ -13,12 +13,13 @@ import {
   Container,
   Skeleton,
 } from '@mui/material';
+import placeholder from '../assets/react.svg';
 import { Link as RouterLink } from 'react-router-dom';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 
-const PLACEHOLDER_IMAGE = '/placeholder.jpg';
+const PLACEHOLDER_IMAGE = placeholder;
 
 // Styled components
 const SectionTitle = styled(Typography)(({ theme }) => ({
@@ -124,9 +125,9 @@ function Catalog() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/catalog')
+    const base = import.meta.env.VITE_API_BASE_URL || '';
+    axios.get(`${base}/api/catalog`)
       .then((response) => {
-        // Filter out sold items
         const availableItems = response.data.filter(item => item.status === 'AVAILABLE');
         setItems(availableItems);
         setLoading(false);
@@ -179,9 +180,7 @@ function Catalog() {
             ))
           ) : (
             limitedItems.map((item) => {
-              const imageSrc = item.imageUrl
-                ? `http://localhost:8080${item.imageUrl}`
-                : PLACEHOLDER_IMAGE;
+              const imageSrc = item.imageUrl ? `${import.meta.env.VITE_API_BASE_URL || ''}${item.imageUrl}` : PLACEHOLDER_IMAGE;
 
               return (
                 <Grid item xs={12} sm={6} md={3} key={item.id} variants={itemVariants}>

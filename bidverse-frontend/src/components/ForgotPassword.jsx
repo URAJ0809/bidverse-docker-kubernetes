@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Box, Typography, TextField, Button, Card, CardContent } from '@mui/material';
 
+// use Vite env or fallback to empty string so requests are relative to the served origin
+const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+  ? import.meta.env.VITE_API_BASE_URL
+  : '';
+
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
@@ -14,8 +19,10 @@ function ForgotPassword() {
     setSuccess(null);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/users/forgot-password', {
+      const response = await axios.post(`${API_BASE}/api/users/forgot-password`, {
         email
+      }, {
+        withCredentials: true   // include cookies if backend uses them; remove if not needed
       });
       // If success, show success message
       setSuccess(response.data); // e.g. "Reset link sent to X"

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE } from '../../config';
 import { Box, Button, Typography, Card, CardContent, Grid } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -21,7 +22,7 @@ function AdminPanel() {
   const fetchAdminProducts = async () => {
     try {
       // Fetch products owned by the current admin user
-      const response = await axios.get(`http://localhost:8080/api/admin/products?userId=${user.id}`);
+      const response = await axios.get(`${API_BASE}/api/admin/products?userId=${user.id}`);
       setProducts(response.data);
     } catch (err) {
       console.error('Error fetching admin products:', err);

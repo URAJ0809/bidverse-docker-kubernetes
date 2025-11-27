@@ -12,15 +12,17 @@ import {
   CardActions,
   Button
 } from '@mui/material';
+import placeholder from '../assets/react.svg';
 
-const PLACEHOLDER_IMAGE = '/placeholder.jpg';
+const PLACEHOLDER_IMAGE = placeholder;
 
 function CatalogFull() {
   const [items, setItems] = useState([]);
 
   // Fetch all products
   useEffect(() => {
-    axios.get('http://localhost:8080/api/catalog')
+    const base = import.meta.env.VITE_API_BASE_URL || '';
+    axios.get(`${base}/api/catalog`)
       .then((response) => setItems(response.data))
       .catch((error) => {
         console.error('Error fetching full catalog:', error);
@@ -35,7 +37,7 @@ function CatalogFull() {
       <Grid container spacing={3}>
         {items.map((item) => {
           const imageSrc = item.imageUrl
-            ? `http://localhost:8080${item.imageUrl}`
+            ? `${import.meta.env.VITE_API_BASE_URL || ''}${item.imageUrl}`
             : PLACEHOLDER_IMAGE;
           return (
             <Grid item xs={12} sm={6} md={3} key={item.id}>

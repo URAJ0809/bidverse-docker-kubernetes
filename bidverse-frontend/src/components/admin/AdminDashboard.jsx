@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE } from '../../config';
 import { Box, Typography, Button, Grid, Card, CardContent, CardActions } from '@mui/material'; // Added CardActions
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -16,7 +17,7 @@ function AdminDashboard() {
 
   const fetchMyProducts = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/admin/products?userId=${user.id}`);
+      const res = await axios.get(`${API_BASE}/api/admin/products?userId=${user.id}`);
       // Display all products by the admin
       setProducts(res.data);
     } catch (err) {
@@ -38,7 +39,7 @@ function AdminDashboard() {
       // If your backend handles an empty body gracefully or defaults endTime, adjust as needed.
       const newEndTime = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // Example: relist for 7 days
 
-      await axios.put(`http://localhost:8080/api/admin/products/${productId}/relist?userId=${user.id}`, {
+      await axios.put(`${API_BASE}/api/admin/products/${productId}/relist?userId=${user.id}`, {
         endTime: newEndTime.toISOString(), // Sending endTime as an example
       });
       // Refresh products list

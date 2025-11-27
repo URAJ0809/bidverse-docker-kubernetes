@@ -1,6 +1,7 @@
 // src/components/ContactForm.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../config';
 import { Box, Typography, TextField, Button } from '@mui/material';
 
 function ContactForm() {
@@ -19,7 +20,7 @@ function ContactForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // If you have a backend, replace with your endpoint:
-    axios.post('http://localhost:8080/api/contact', formData)
+    axios.post(`${API_BASE}/api/contact`, formData)
       .then((response) => {
         console.log('Message sent:', response.data);
         setFormData({ name: '', email: '', subject: '', message: '' });

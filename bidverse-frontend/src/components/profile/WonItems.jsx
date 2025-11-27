@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE } from '../../config';
 import { Box, Typography, Card, CardContent, CardMedia, Grid, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -14,7 +15,7 @@ function WonItems() {
 
     const fetchWonItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/users/${user.id}/won-items`);
+        const response = await axios.get(`${API_BASE}/api/users/${user.id}/won-items`);
         setWonItems(response.data);
       } catch (err) {
         console.error('Error fetching won items:', err);
@@ -56,7 +57,7 @@ function WonItems() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={`http://localhost:8080${item.productImage}`}
+                  image={`${API_BASE}${item.productImage}`}
                   alt={item.productName}
                 />
               )}

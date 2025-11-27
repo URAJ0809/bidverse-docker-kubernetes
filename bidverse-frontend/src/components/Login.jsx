@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Link, Card, CardContent } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE } from '../config';
 import { useAuth } from '../context/AuthContext';
 
 function Login() {
@@ -19,7 +20,7 @@ function Login() {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/users/login', {
+      const response = await axios.post(`${API_BASE}/api/users/login`, {
         email,
         username,
         password,

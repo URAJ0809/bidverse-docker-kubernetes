@@ -3,6 +3,7 @@ import { Box, Typography, TextField, Button, Card, CardContent, Alert } from '@m
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE } from '../config';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 function AdminLogin() {
@@ -19,7 +20,7 @@ function AdminLogin() {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/users/login', {
+      const response = await axios.post(`${API_BASE}/api/users/login`, {
         email,
         username,
         password,

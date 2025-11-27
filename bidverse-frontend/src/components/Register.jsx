@@ -13,6 +13,7 @@ import {
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE } from '../config';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -30,7 +31,7 @@ function Register() {
 
     try {
       // Send { email, username, password, role } to backend
-      const response = await axios.post('http://localhost:8080/api/users/register', {
+      const response = await axios.post(`${API_BASE}/api/users/register`, {
         email,
         username,
         password,

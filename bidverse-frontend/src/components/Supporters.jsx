@@ -1,11 +1,16 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
+import logo1 from '../assets/logo1.png';
+import logo2 from '../assets/logo2.png';
+import logo3 from '../assets/logo3.png';
+import logo4 from '../assets/logo4.png';
+
 const SUPPORTER_LOGOS = [
-  { src: 'src/assets/logo1.png', alt: 'Generator' },
-  { src: 'src/assets/logo2.png', alt: 'GLMP.IT' },
-  { src: 'src/assets/logo3.png', alt: 'gaze it' },
-  { src: 'src/assets/logo4.png', alt: 'mtvs.news' },
+  { src: logo1, alt: 'Generator' },
+  { src: logo2, alt: 'GLMP.IT' },
+  { src: logo3, alt: 'gaze it' },
+  { src: logo4, alt: 'mtvs.news' },
 ];
 
 function Supporters() {

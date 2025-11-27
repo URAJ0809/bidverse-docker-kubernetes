@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext'; // Make sure this is imported
+import { API_BASE } from '../../config';
 import { TextField, Button, Box, Typography, Input } from '@mui/material';
 
 
@@ -62,7 +63,7 @@ function AddProduct() {
         }
       }
 
-      await axios.post(`http://localhost:8080/api/admin/products?userId=${adminUserId}`, formData, {
+      await axios.post(`${API_BASE}/api/admin/products?userId=${adminUserId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
